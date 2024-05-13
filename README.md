@@ -1,6 +1,6 @@
 # maze -- Maze generators and solvers.
 
-What is here:
+What is here...
 
     **maze.py**
 
@@ -23,3 +23,8 @@ What is here:
     **mazer.py**
 
         This should be run by python.   It will use Tkinter to interact with a user allowing choice of algorithms, size of mazes, single stepping, etc.
+
+    **maze.html**
+
+        This will some day support running the mazes in a browser by
+        using pyscript.
