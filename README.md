@@ -13,7 +13,7 @@ definitions for hexagonal grid cells, but this is untested.
 
 The 3D mazes may be less than ideal in that there is likely to be way
 too many openings between layers.  Perhaps a better mechanism can be
-created for choosing random directions to travel.
+created for choosing random directions when traveling.
 
 If invoked such as:
     py maze.py 10 10
