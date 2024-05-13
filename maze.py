@@ -68,7 +68,7 @@ class Maze:
     # Maze cell state and directions:
     # The directions represent openings in the walls.
     # We use _ to keep track of bit as we walk it to the left.
-    # We also create teh masks as we go.
+    # We also create the masks as we go.
     _ = 1
     STATE = 0
     STATE = STATE | (INMAZE := _)                  # a cell in the maze
@@ -460,18 +460,19 @@ See Wikipedia: https://en.wikipedia.org/wiki/Maze_generation_algorithm
     #   -- The function to solve the maze.
     #   -- A description.
     solvers = [
-        (
-            "Random Mouse Algorithm",
-            mouse_solve,
-            """
-This is a trivial method that can be implemented by a very unintelligent
-robot or perhaps a mouse. It is simply to proceed following the current
-passage until a junction is reached, and then to make a random decision
-about the next direction to follow.
-
-See Wikipedia: https://en.wikipedia.org/wiki/Maze-solving_algorithm
-"""
-        ),
+### **Not Yet Implemented**
+###         (
+###             "Random Mouse Algorithm",
+###             mouse_solve,
+###             """
+### This is a trivial method that can be implemented by a very unintelligent
+### robot or perhaps a mouse. It is simply to proceed following the current
+### passage until a junction is reached, and then to make a random decision
+### about the next direction to follow.
+### 
+### See Wikipedia: https://en.wikipedia.org/wiki/Maze-solving_algorithm
+### """
+###         ),
         (
             "Dead End Backfill",
             deadend_solve,
