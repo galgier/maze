@@ -14,7 +14,7 @@ This module supports 2D and 3D orthogonal mazes. There are some
 definitions for hexagonal grid cells, but this is untested.
 
 The 3D mazes may be less than ideal in that there is likely to be way
-too many openings between layers.  Perhaps a better mechanism can be
+too many openings _between_ layers.  Perhaps a better mechanism can be
 created for choosing random directions when traveling.
 
 If run as `py maze.py 10 10` the code will genrate a 2D 10 x 10 maze and output a simple textual represention.
