@@ -33,9 +33,9 @@
   <dialog id="loading">
     <h1>Loading...</h1>
   </dialog>
-<!--      "files": { "./psmaze.py": "psmaze.py" }, -->
   <py-config>
     {
+      "files": { "https://galgier.github.io/maze/ps-mazer.py": "ps-mazer.py" },
       "packages": [ "numpy" ]
     }
   </py-config>
@@ -87,63 +87,7 @@
     </tr>
   </table>
   <section class="pyscript">
-    <script type="py">
-        from pyscript import document, display
-        from js import Math, setInterval
-        import numpy as np
-
-        CELLSIZE = 30           # width of a cell
-        WALLTHICK = 3           # thickness of wall
-        ARROWTHICK = 1
-        SPACING = CELLSIZE + WALLTHICK
-        HALFCELL = int(CELLSIZE // 2)
-        ARROWLEN = int(CELLSIZE // 3)
-        COLORWALL = 'black'
-        COLORBLOCK = 'black'
-        COLORSTART = 'lime'
-        COLOREND = 'red'
-        COLORARROW = 'black'
-        COLORWALK = 'orange'
-        COLORLOOP = 'yellow'
-        COLORCLEAR = 'gray40'
-        COLORDEAD = 'gray50'
-        COLORSOLUTION = 'cyan'
-
-        def draw_maze(ctx, width, height):
-            ctx.clearRect(0, 0,
-                (width + 1) * SPACING - 1,
-                (height + 1) * SPACING - 1)
-            draw_grid(ctx, width, height, COLORWALL)
-
-        def draw_grid(ctx, width, height, style):
-            maxx = (width + 1) * SPACING - 1
-            maxy = (height + 1) * SPACING - 1
-            for x in range(0, maxx, SPACING):
-                draw_vert(ctx, x, 0, maxy, style)
-            for y in range(0, maxy, SPACING):
-                draw_horz(ctx, y, 0, maxx, style)
-
-        def draw_vert(ctx, x, miny, maxy, style):
-            ctx.beginPath()
-            ctx.moveTo(x, miny)
-            ctx.lineTo(x, maxy)
-            ctx.strokeStyle = style
-            ctx.stroke()
-
-        def draw_horz(ctx, y, minx, maxx, style):
-            ctx.beginPath()
-            ctx.moveTo(minx, y)
-            ctx.lineTo(maxx, y)
-            ctx.strokeStyle = style
-            ctx.stroke()
-
-        def main():
-            canvas = document.getElementById("maze")
-            ctx = canvas.getContext("2d")
-            draw_maze(ctx, 10, 10)
-
-        main()
-
+    <script type="py" src="ps-mazer.py">
     </script>
     <canvas id="maze" width="330", height="330"><!-- here be maze --></canvas>
   </section>

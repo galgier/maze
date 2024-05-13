@@ -24,31 +24,31 @@ class State(Enum):
     SOLVING = auto()
     SOLVED = auto()
 
-MINSPEED = 0
-MAXSPEED = 100
-DEFWIDTH = 10           # number of cells
-DEFHEIGHT = 10
-DEFLEVELS = 1
-MAXDIMENSION = 1000
-LEFTMARGIN = RIGHTMARGIN = TOPMARGIN = BOTMARGIN = 5
-CELLSIZE = 30           # width of a cell
-WALLTHICK = 3           # thickness of wall
-ARROWTHICK = 1
-SPACING = CELLSIZE + WALLTHICK
-HALFCELL = int(CELLSIZE // 2)
-ARROWLEN = int(CELLSIZE // 3)
-STEPDELAY=1500  # repeat delay
-STEPREPEAT=100  # repeat interval
-COLORWALL = 'black'
-COLORBLOCK = 'black'
-COLORSTART = 'lime'
-COLOREND = 'red'
-COLORARROW = 'black'
-COLORWALK = 'orange'
-COLORLOOP = 'yellow'
-COLORCLEAR = 'gray40'
-COLORDEAD = 'gray50'
-COLORSOLUTION = 'cyan'
+MIN_SPEED = 0
+MAX_SPEED = 100
+DEF_WIDTH = 10           # number of cells
+DEF_HEIGHT = 10
+DEF_LEVELS = 1
+MAX_DIMENSION = 1000
+LEFT_MARGIN = RIGHT_MARGIN = TOP_MARGIN = BOT_MARGIN = 5
+CELL_SIZE = 30           # width of a cell
+WALL_THICK = 3           # thickness of wall
+ARROW_THICK = 1
+SPACING = CELL_SIZE + WALL_THICK
+HALF_CELL = int(CELL_SIZE // 2)
+ARROW_LEN = int(CELL_SIZE // 3)
+STEP_DELAY=1500  # repeat delay
+STEP_REPEAT=100  # repeat interval
+COLOR_WALL = 'black'
+COLOR_BLOCK = 'black'
+COLOR_START = 'lime'
+COLOR_END = 'red'
+COLOR_ARROW = 'black'
+COLOR_WALK = 'orange'
+COLOR_LOOP = 'yellow'
+COLOR_CLEAR = 'gray40'
+COLOR_DEAD = 'gray50'
+COLOR_SOLUTION = 'cyan'
 
 # Useful during debugging
 def dir_name(dir):
@@ -99,7 +99,7 @@ class App(tk.Tk):
         self.title(title)
         self.columnconfigure(0, weight=1)
         self.minsize(size[0],size[1])
-        self.shape = self.shape2d((DEFWIDTH,DEFHEIGHT,DEFLEVELS))
+        self.shape = self.shape2d((DEF_WIDTH,DEF_HEIGHT,DEF_LEVELS))
         self.maze = Maze(self.shape)
         self.maze.log = self.log
         self.gen_queue = self.solve_q = None
@@ -242,13 +242,13 @@ class App(tk.Tk):
     def canvas_size(self):
         (width, height, levels) = list(self.shape3d(self.maze.cells.shape))
         return (
-            LEFTMARGIN + width * SPACING + WALLTHICK + RIGHTMARGIN,
-            TOPMARGIN + height * SPACING + WALLTHICK + BOTMARGIN
+            LEFT_MARGIN + width * SPACING + WALL_THICK + RIGHT_MARGIN,
+            TOP_MARGIN + height * SPACING + WALL_THICK + BOT_MARGIN
         )
     def canvasxy2cell(self,canvas,x,y):
         (width, height, levels) = list(self.shape3d(self.maze.cells.shape))
-        cellx = min((x - LEFTMARGIN) // SPACING, width - 1)
-        celly = min((y - TOPMARGIN) // SPACING, height - 1)
+        cellx = min((x - LEFT_MARGIN) // SPACING, width - 1)
+        celly = min((y - TOP_MARGIN) // SPACING, height - 1)
         return (cellx, celly)
 
     # Add a book (aka a maze level) to a notebook
@@ -356,7 +356,7 @@ class App(tk.Tk):
                     except ValueError:
                         ok = False
                     else:
-                        ok = 0 < n and n <= MAXDIMENSION and n <= maximum
+                        ok = 0 < n and n <= MAX_DIMENSION and n <= maximum
                     if not ok:
                         self.entry_vars[name].set(values[name])
                     self.update_states()
@@ -396,9 +396,9 @@ class App(tk.Tk):
             font=("TkDefaultFont", 12)
         ).grid(row=0, columnspan=2, padx=5, sticky="n")
 
-        dim_entry(self.size_frame,"Width",str(DEFWIDTH),1000,1)
-        dim_entry(self.size_frame,"Height",str(DEFHEIGHT),1000,2)
-        dim_entry(self.size_frame,"Levels",str(DEFLEVELS),1,3)
+        dim_entry(self.size_frame,"Width",str(DEF_WIDTH),1000,1)
+        dim_entry(self.size_frame,"Height",str(DEF_HEIGHT),1000,2)
+        dim_entry(self.size_frame,"Levels",str(DEF_LEVELS),1,3)
 
         # Middle of second section is for choosing generator method
         self.generator_frame = tk.Frame(self.input_frame)
@@ -467,8 +467,8 @@ class App(tk.Tk):
         self.step_button = tk.Button(self.step_frame,
             text="Step",
             command=self.step_pressed,
-            repeatdelay=STEPDELAY,
-            repeatinterval=STEPREPEAT,
+            repeatdelay=STEP_DELAY,
+            repeatinterval=STEP_REPEAT,
             state=tk.DISABLED
         )
         self.step_button.grid()
@@ -589,7 +589,7 @@ class App(tk.Tk):
         self.maze.log = self.log
         self.state = State.CLEARED
         self.recanvas()
-        self.grid_maze(cells=COLORCLEAR, walls=COLORWALL)
+        self.grid_maze(cells=COLOR_CLEAR, walls=COLOR_WALL)
         self.update_states()
 
     def generate_pressed(self):
@@ -604,7 +604,7 @@ class App(tk.Tk):
             self.clear_pressed()
         else:
             self.maze.clean()
-            self.grid_maze(cells=COLORCLEAR, walls=COLORWALL)
+            self.grid_maze(cells=COLOR_CLEAR, walls=COLOR_WALL)
 
         # Start/restart RNG with seed
         self.maze.rand = np.random.default_rng(self.seed)
@@ -698,8 +698,8 @@ class App(tk.Tk):
 
     def recanvas(self):
         (width, height, levels) = list(self.shape3d(self.maze.cells.shape))
-        w = width * SPACING + WALLTHICK + 1
-        h = height * SPACING + WALLTHICK + 1
+        w = width * SPACING + WALL_THICK + 1
+        h = height * SPACING + WALL_THICK + 1
         keys = list(self.tabs.keys())   # must be a copy
         # Get rid of excess levels
         for key in keys:
@@ -731,7 +731,7 @@ class App(tk.Tk):
                 self.stepper = lambda : None
                 self.update_states()
             case "clear-cell":
-                self.draw_cell(kwargs["current"], cell=0, color=COLORCLEAR)
+                self.draw_cell(kwargs["current"], cell=0, color=COLOR_CLEAR)
             case "mark-cell":
                 self.draw_cell(kwargs["current"])
             case "walk-start":
@@ -742,11 +742,11 @@ class App(tk.Tk):
             case "walk-step":
                 cells = kwargs["cells"]
                 self.draw_cell(kwargs["current"],
-                    cell=cells[0], color=COLORWALK)
+                    cell=cells[0], color=COLOR_WALK)
             case "walk-loop":
                 cells = kwargs["cells"]
                 self.draw_cell(kwargs["neighbor"],
-                    cell=cells[1], color=COLORLOOP)
+                    cell=cells[1], color=COLOR_LOOP)
             case _:
                 visible = False
         return visible
@@ -766,15 +766,15 @@ class App(tk.Tk):
                 self.tend=kwargs["end"]
                 self.draw_cell(kwargs["end"])
             case "dead-end":
-                self.draw_cell(kwargs["current"], color=COLORDEAD)
+                self.draw_cell(kwargs["current"], color=COLOR_DEAD)
             case "solution":
                 coord = kwargs["current"]
                 if coord in (self.start, self.tstart):
-                    color = COLORSTART
+                    color = COLOR_START
                 elif coord in (self.end, self.tend):
-                    color = COLOREND
+                    color = COLOR_END
                 else:
-                    color = COLORSOLUTION
+                    color = COLOR_SOLUTION
                 self.draw_cell(coord, color=color)
             case _:
                 visible = False
@@ -791,7 +791,7 @@ class App(tk.Tk):
         except Exception:
             return
 
-        if walls is None: walls=COLORWALL
+        if walls is None: walls=COLOR_WALL
         shape = self.shape2d(self.maze.cells.shape)
         (width, height) = shape[0:2]
 
@@ -801,10 +801,10 @@ class App(tk.Tk):
         # a cell inside that, we need to shift the walls a bit.
         # Hense the fudge factor.   It might be best to keep the line
         # widths an odd number.
-        fudge = int(WALLTHICK // 2)
-        xleft = LEFTMARGIN                  # X coord of leftmost wall
+        fudge = int(WALL_THICK // 2)
+        xleft = LEFT_MARGIN                  # X coord of leftmost wall
         xright = xleft + width * SPACING    # X coord of rightmost wall
-        ytop = TOPMARGIN                    # Y coord of topmost wall
+        ytop = TOP_MARGIN                    # Y coord of topmost wall
         ybottom = ytop + height * SPACING   # Y coord of botommost wall
 
         if cells is not None:
@@ -819,9 +819,9 @@ class App(tk.Tk):
         x = xleft + fudge
         for i in range(width + 1):
             canvas.create_line(
-                x, ytop, x, ybottom + WALLTHICK,
+                x, ytop, x, ybottom + WALL_THICK,
                 fill=walls,
-                width=WALLTHICK
+                width=WALL_THICK
             )
             #canvas.create_line(x,ybottom + 10,x,ybottom+20,fill='red',width=1)
             x += SPACING
@@ -830,9 +830,9 @@ class App(tk.Tk):
         y = ytop + fudge
         for i in range(height + 1):
             canvas.create_line(
-                xleft, y, xright + WALLTHICK, y,
+                xleft, y, xright + WALL_THICK, y,
                 fill=walls,
-                width=WALLTHICK
+                width=WALL_THICK
             )
             #canvas.create_line(xright + 10,y,xright+20,y,fill='red',width=1)
             y += SPACING
@@ -858,17 +858,17 @@ class App(tk.Tk):
         # a cell inside that, we need to shift the walls a bit.
         # Hense the fudge factor.   It might be best to keep the line
         # widths an odd number.
-        fudge = int(WALLTHICK // 2)
-        leftwall = LEFTMARGIN + x * SPACING     # X of left wall
-        leftcell = leftwall + WALLTHICK         # X of left side of cell
+        fudge = int(WALL_THICK // 2)
+        leftwall = LEFT_MARGIN + x * SPACING     # X of left wall
+        leftcell = leftwall + WALL_THICK         # X of left side of cell
         rightwall = leftwall + SPACING          # X of right wall
         rightcell = rightwall - 1               # X of right side of cell
-        topwall = TOPMARGIN + y * SPACING       # Y of top wall
-        topcell = topwall + WALLTHICK           # Y of top side of Cell
+        topwall = TOP_MARGIN + y * SPACING       # Y of top wall
+        topcell = topwall + WALL_THICK           # Y of top side of Cell
         bottomwall = topwall + SPACING          # Y of bottom wall
         bottomcell = bottomwall - 1             # Y of bottom side of cell
-        xcenter = leftcell + HALFCELL
-        ycenter = topcell + HALFCELL
+        xcenter = leftcell + HALF_CELL
+        ycenter = topcell + HALF_CELL
 
         doors = self.maze.bits(cell & Maze.DIR)
         arrows = list()
@@ -877,21 +877,21 @@ class App(tk.Tk):
         if (cell & Maze.INUSE) == 0:
             if cell & Maze.DIR:
                 # must be doing random walk
-                fill = COLORWALK
+                fill = COLOR_WALK
                 arrows = doors
                 doors = list()
             else:
-                fill = COLORCLEAR
+                fill = COLOR_CLEAR
         elif cell & Maze.HIDDEN:
-            fill = COLORBLOCK
+            fill = COLOR_BLOCK
             doors = list()
         elif cell & Maze.INUSE:
             fill = self.bg_color
 
         if coord in (self.start, self.tstart):
-            fill = COLORSTART
+            fill = COLOR_START
         elif coord in (self.end, self.tend):
-            fill = COLOREND
+            fill = COLOR_END
 
         if color is not None:
             fill = color
@@ -925,26 +925,26 @@ class App(tk.Tk):
             (x0, y0, x1, y1) = xy
             canvas.create_line(x0, y0, x1, y1,
                 fill=fill,
-                width=WALLTHICK + 1,
+                width=WALL_THICK + 1,
             )
 
         # Draw arrows when walking
         for dir in arrows:
             match dir:
                 case Maze.N:
-                    xy = (xcenter, ycenter, xcenter, ycenter - ARROWLEN)
+                    xy = (xcenter, ycenter, xcenter, ycenter - ARROW_LEN)
                 case Maze.E:
-                    xy = (xcenter, ycenter, xcenter + ARROWLEN, ycenter)
+                    xy = (xcenter, ycenter, xcenter + ARROW_LEN, ycenter)
                 case Maze.S:
-                    xy = (xcenter, ycenter, xcenter, ycenter + ARROWLEN)
+                    xy = (xcenter, ycenter, xcenter, ycenter + ARROW_LEN)
                 case Maze.W:
-                    xy = (xcenter, ycenter, xcenter - ARROWLEN, ycenter)
+                    xy = (xcenter, ycenter, xcenter - ARROW_LEN, ycenter)
                 case _:
                     continue
             (x0, y0, x1, y1) = xy
             canvas.create_line(x0, y0, x1, y1,
-                fill=COLORARROW,
-                width=ARROWTHICK,
+                fill=COLOR_ARROW,
+                width=ARROW_THICK,
                 arrow=tk.LAST,
             )
 
