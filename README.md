@@ -17,7 +17,7 @@ The 3D mazes may be less than ideal in that there is likely to be way
 too many openings between layers.  Perhaps a better mechanism can be
 created for choosing random directions when traveling.
 
-If run as `py maze.py 10 10` the code will genrate a 2D maze and output a simple textual represention.
+If run as `py maze.py 10 10` the code will genrate a 2D 10 x 10 maze and output a simple textual represention.
 
 If imported via `from maze import Maze` this module will do the work for the caller.  Likely Maze.callback() should be used to "watch" what is happening.
 
