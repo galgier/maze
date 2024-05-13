@@ -1,7 +1,9 @@
 # maze -- Maze generators and solvers.
 
 What is here:
+
     **maze.py**
+
         This is the code that will do the maze generation and solving.
         As of this time it supports two generation algorithms and one
         solution algorithm.  See Maze.generators and Maze.solvers.
@@ -18,4 +20,6 @@ What is here:
         this module will do the work for the caller.  Likely
         Maze.callback() should be used to "watch" what is happening.
 
-            
+    **mazer.py**
+
+        This should be run by python.   It will use Tkinter to interact with a user allowing choice of algorithms, size of mazes, single stepping, etc.
