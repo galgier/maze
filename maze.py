@@ -49,6 +49,15 @@ the top and bottom of the screen which is more pleasing to the author.
 When mapping the hexagons to an x,y labeling, the top corner is
 still 0,0.  But then the cell to the south-east is 1,0, south is 0,1, etc.
 
+I use the arrays defined by numpy.   These allow some useful methods
+that can be applied to the whole array.   They also can be indexed
+by a coordinate that is a tuple.   This means that the maze can be
+2D, 3D or even 10D and a lot of the code woould work the same.
+There are a few places I do check if the third dimension is just a
+single layer.  This makes random direction descisions faster.  One
+does not need to generate all 6 directional choices when two of
+them woould be discarded as "off grid" anyway.
+
 """
 
 import sys
