@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--
+  # vim: ts=2 sw=2 expandtab
+-->
+<html>
+<head>
+  <!-- Recommended meta tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+  <!-- This script tag bootstraps PyScript -->
+  <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+  <style>
+	  #loading { outline: none; border: none; background: transparent }
+  </style>
+  <!--
+    The following code will wait for pyscript to be ready and then will
+    close the dialog box allowing everything else to run as normal.
+  -->
+  <script type="module">
+      const loading = document.getElementById('loading');
+      addEventListener('py:ready', () => loading.close());
+      loading.showModal();
+  </script>
+
+  <title>PyScript Maze Tool</title>
+</head>
+<body>
+  <!--
+    This is the modal dialog that gets opened to warn the user that
+    pyscript is still loading.  It will be closed when ready to run.
+  -->
+  <dialog id="loading">
+    <h1>Loading...</h1>
+  </dialog>
+<!--      "files": { "./psmaze.py": "psmaze.py" }, -->
+  <py-config>
+    {
+      "packages": [ "numpy" ]
+    }
+  </py-config>
+  <table>
+    <tr>
+      <th>Dimensions</th>
+      <th>Generators</th>
+      <th>Solvers</th>
+    </tr>
+    <tr>
+      <td>
+        <table>
+          <tr>
+            <th>Width</th>
+            <td><input type="text" name="width" value="10" size="5"
+            maxlength="5"></td>
+          </tr>
+          <tr>
+            <th>Height</th>
+            <td><input type="text" name="height" value="10" size=
+            "5" maxlength="5"></td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table>
+          <tr>
+            <td><input type="radio" name="generator" value=
+            "recursive" size="4">Recursive Backtracker</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="generator" value=
+            "wilsons" checked size="4">Wilson's Algorithm</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table>
+          <tr>
+            <td><input type="radio" name="solver" value="deadend"
+            checked size="4">Dead End Backfill</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="solver" value="random"
+            size="4">Random Mouse Algorithm</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <section class="pyscript">
+    <script type="py">
+        from pyscript import document, display
+        from js import Math, setInterval
+        import numpy as np
+
+        CELLSIZE = 30           # width of a cell
+        WALLTHICK = 3           # thickness of wall
+        ARROWTHICK = 1
+        SPACING = CELLSIZE + WALLTHICK
+        HALFCELL = int(CELLSIZE // 2)
+        ARROWLEN = int(CELLSIZE // 3)
+        COLORWALL = 'black'
+        COLORBLOCK = 'black'
+        COLORSTART = 'lime'
+        COLOREND = 'red'
+        COLORARROW = 'black'
+        COLORWALK = 'orange'
+        COLORLOOP = 'yellow'
+        COLORCLEAR = 'gray40'
+        COLORDEAD = 'gray50'
+        COLORSOLUTION = 'cyan'
+
+        def draw_maze(ctx, width, height):
+            ctx.clearRect(0, 0,
+                (width + 1) * SPACING - 1,
+                (height + 1) * SPACING - 1)
+            draw_grid(ctx, width, height, COLORWALL)
+
+        def draw_grid(ctx, width, height, style):
+            maxx = (width + 1) * SPACING - 1
+            maxy = (height + 1) * SPACING - 1
+            for x in range(0, maxx, SPACING):
+                draw_vert(ctx, x, 0, maxy, style)
+            for y in range(0, maxy, SPACING):
+                draw_horz(ctx, y, 0, maxx, style)
+
+        def draw_vert(ctx, x, miny, maxy, style):
+            ctx.beginPath()
+            ctx.moveTo(x, miny)
+            ctx.lineTo(x, maxy)
+            ctx.strokeStyle = style
+            ctx.stroke()
+
+        def draw_horz(ctx, y, minx, maxx, style):
+            ctx.beginPath()
+            ctx.moveTo(minx, y)
+            ctx.lineTo(maxx, y)
+            ctx.strokeStyle = style
+            ctx.stroke()
+
+        def main():
+            canvas = document.getElementById("maze")
+            ctx = canvas.getContext("2d")
+            draw_maze(ctx, 10, 10)
+
+        main()
+
+    </script>
+    <canvas id="maze" width="330", height="330"><!-- here be maze --></canvas>
+  </section>
+  <section class="pyscript">
+  </section>
+</body>
+</html>
