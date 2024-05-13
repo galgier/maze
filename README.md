@@ -1,6 +1,6 @@
 # maze -- Maze generators and solvers.
 
-**Warning:** This is a work in progress.  The python/Tkinter application works, with limitations but this is no way intended to be ready to support all features.
+**Warning:** This is a work in progress.  The python/Tkinter application works, with limitations, but this is no way intended to be ready to support all features.
 
 What is here...
 
