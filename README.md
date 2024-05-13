@@ -8,10 +8,9 @@ What is here...
     As of this time it supports two generation algorithms and one
     solution algorithm.  See Maze.generators and Maze.solvers.
 
-    This module supports 2D and 3D orthogonal mazes.   The 3D mazes
-    may be less than ideal in that there is likely to be way too many
-    openings between layers.   There are some definitions for hexagonal
-    grid cells, but this is untested.
+    This module supports 2D and 3D orthogonal mazes. There are some definitions for hexagonal grid cells, but this is untested.
+
+    The 3D mazes may be less than ideal in that there is likely to be way too many openings between layers.  Perhaps a better mechanism can be created for choosing random directions to travel.
 
     If invoked such as:
         py maze.py 10 10
