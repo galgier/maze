@@ -386,7 +386,7 @@ class Maze:
         start = self.random_start(start = start)
         end = self.random_end(end = end)
 
-        # copy the cells because we are going to temporarily close doos
+        # copy the cells because we are going to temporarily close doors
         thecopy = np.copy(self.cells)
 
         # look for cells with only one door
