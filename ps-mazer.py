@@ -1,7 +1,7 @@
 # vim: ts=4 sw=4 expandtab
 
 from pyscript import document, display
-from pyodide import create_proxy
+from pyodide.ffi import create_proxy
 
 import numpy as np
 
