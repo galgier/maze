@@ -2,6 +2,7 @@
 
 from pyscript import document, display
 from pyodide.ffi import create_proxy
+from datetime import datetime
 
 import numpy as np
 
@@ -55,6 +56,10 @@ def on_generate():
     ctx = canvas.getContext("2d")
     draw_maze(ctx, 10, 10)
 
+print("started at ",datetime.now().strftime("%x %X"))
+display("started at ",datetime.now().strftime("%x %X"))
 generate_proxy = create_proxy(on_generate)
 element = document.getElementById("generate_button")
 element.addEventListener("click", generate_proxy)
+display("ended at ",datetime.now().strftime("%x %X"))
+print("ended at ",datetime.now().strftime("%x %X"))
