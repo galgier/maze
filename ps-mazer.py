@@ -1,7 +1,8 @@
 # vim: ts=4 sw=4 expandtab
 
 from pyscript import document, display
-from js import Math, setInterval
+from pyodide import create_proxy
+
 import numpy as np
 
 CELL_SIZE = 30           # width of a cell
@@ -49,10 +50,11 @@ def draw_horz(ctx, y, minx, maxx, style):
     ctx.strokeStyle = style
     ctx.stroke()
 
-def main():
+def on_generate():
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
     draw_maze(ctx, 10, 10)
 
-main()
-
+generate_proxy = create_proxy(on_generate)
+element = document.getElementById("generate_button")
+element.addEventListener("click", generate_proxy)
