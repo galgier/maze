@@ -51,7 +51,7 @@ def draw_horz(ctx, y, minx, maxx, style):
     ctx.strokeStyle = style
     ctx.stroke()
 
-def on_generate():
+def on_generate(*args):
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
     draw_maze(ctx, 10, 10)
