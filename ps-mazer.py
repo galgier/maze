@@ -27,21 +27,21 @@ def draw_maze(ctx, width, height):
     clear_maze(ctx, width, height)
     draw_grid(ctx, width, height, COLOR_WALL)
 
-def draw_cell(ctx, x, y, thick, style):
-    ctx.beginPath()
-    ctx.lineWidth = 0
-    ctx.strokeStyle = style
-    ctx.rect(x * SPACING, y * SPACING, CELLSIZE, CELLSIZE)
-    ctx.stroke()
+def draw_cell(ctx, x, y, style):
+    ctx.fillStyle = style
+    ctx.fillRect(x * SPACING + WALL_THICK - 1,
+        y * SPACING + WALL_THICK - 1,
+        CELL_SIZE - 1,
+        CELL_SIZE - 1)
     
 def clear_maze(ctx, width, height):
     ctx.clearRect(0, 0,
-        (width + 1) * SPACING - 1,
-        (height + 1) * SPACING - 1)
+        (width + 1) * SPACING + WALL_THICK - 1,
+        (height + 1) * SPACING + WALL_THICK - 1)
 
 def draw_grid(ctx, width, height, style):
-    maxx = (width + 1) * SPACING - 1
-    maxy = (height + 1) * SPACING - 1
+    maxx = width * SPACING + WALL_THICK - 1
+    maxy = height * SPACING + WALL_THICK - 1
     for x in range(0, maxx, SPACING):
         draw_vert(ctx, x, 0, maxy, WALL_THICK, style)
     for y in range(0, maxy, SPACING):
@@ -64,25 +64,33 @@ def draw_horz(ctx, y, minx, maxx, thick, style):
     ctx.stroke()
 
 def on_clear(*args):
-    print(f"{args = }")
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
     clear_maze(ctx, 10, 10)
 
 def on_generate(*args):
-    print(f"{args = }")
+    choice = document.querySelector("[name='generator']:checked").value
+    print(f"{choice = }")
+    width = int(document.querySelector("[name='width']").value)
+    print(f"{width = }")
+    height = int(document.querySelector("[name='height']").value)
+    print(f"{height = }")
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
-    draw_maze(ctx, 10, 10)
+    draw_maze(ctx, width, height)
 
 def on_solve(*args):
-    print(f"{args = }")
+    choice = document.querySelector("[name='solver']:checked").value
+    print(f"{choice = }")
+    width = int(document.querySelector("[name='width']").value)
+    print(f"{width = }")
+    height = int(document.querySelector("[name='height']").value)
+    print(f"{height = }")
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
-    for y in range(10):
-        for x in range(y % 2, 10, 2):
-            print(f"draw_cell(ctx,{x},{y},0,{COLOR_SOLUTION})")
-            draw_cell(ctx, x, y, 0, COLOR_SOLUTION)
+    for y in range(width):
+        for x in range(y % 2, height, 2):
+            draw_cell(ctx, x, y, COLOR_SOLUTION)
 
 clear_proxy = create_proxy(on_clear)
 element = document.getElementById("clear_button")
