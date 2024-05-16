@@ -14,8 +14,6 @@ from maze import Maze
 
 _sentinel = object()    # used to mark end of data in queue
 
-SOLVE_THREADED = False
-
 class State(Enum):
     INITIAL = auto()
     CLEARED = auto()

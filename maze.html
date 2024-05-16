@@ -4,6 +4,19 @@
 -->
 <html>
 <head>
+  <style>
+    .button {
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
   <!-- Recommended meta tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -35,7 +48,10 @@
   </dialog>
   <py-config>
     {
-      "files": { "https://galgier.github.io/maze/ps-mazer.py": "ps-mazer.py" },
+      "files": {
+        "https://galgier.github.io/maze/ps-mazer.py": "ps-mazer.py",
+        "https://galgier.github.io/maze/maze.py": "maze.py"
+      },
       "packages": [ "numpy" ]
     }
   </py-config>

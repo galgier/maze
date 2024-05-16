@@ -3,8 +3,20 @@
 from pyscript import document, display
 from pyodide.ffi import create_proxy
 from datetime import datetime
-
+import secrets
+from enum import Enum, auto
 import numpy as np
+
+from maze import Maze
+
+class State(Enum):
+    INITIAL = auto()
+    CLEARING = auto()
+    CLEARED = auto()
+    GENERATING = auto()
+    GENERATED = auto()
+    SOLVING = auto()
+    SOLVED = auto()
 
 CELL_SIZE = 30           # width of a cell
 WALL_THICK = 3           # thickness of wall
@@ -22,6 +34,17 @@ COLOR_LOOP = 'yellow'
 COLOR_CLEAR = 'gray40'
 COLOR_DEAD = 'gray50'
 COLOR_SOLUTION = 'cyan'
+
+class App():
+    def __init__(self):
+        # Initialize
+        super().__init__()
+        self.state = State.INITIAL
+        self.shape = self.shape2d((DEF_WIDTH,DEF_HEIGHT,DEF_LEVELS))
+        self.maze = Maze(self.shape)
+
+# instantiate the application
+app = App()
 
 def draw_maze(ctx, width, height):
     clear_maze(ctx, width, height)
@@ -74,7 +97,11 @@ def on_clear(*args):
     height = int(document.querySelector("[name='height']").value)
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
+    app.state = State.CLEARING
+    app.update_states()
     clear_maze(ctx, width, height)
+    app.state = State.CLEARED
+    app.update_states()
 
 def on_generate(*args):
     width = int(document.querySelector("[name='width']").value)
@@ -83,6 +110,11 @@ def on_generate(*args):
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
     draw_maze(ctx, width, height)
+    app.state = State.GENERATING
+    app.update_states()
+    # XXX: setup callbacks and generate
+    app.state = State.GENERATED
+    app.update_states()
 
 def on_solve(*args):
     width = int(document.querySelector("[name='width']").value)
@@ -90,9 +122,16 @@ def on_solve(*args):
     choice = document.querySelector("[name='solver']:checked").value
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
+    app.state = State.SOLVING
+    app.update_states()
+    # XXX: setup callbacks and solve
     for y in range(width):
         for x in range(y % 2, height, 2):
             draw_cell(ctx, x, y, COLOR_SOLUTION)
+    app.state = State.SOLVED
+    app.update_states()
+
+self.state = State.INITIAL
 
 clear_proxy = create_proxy(on_clear)
 element = document.getElementById("clear_button")
