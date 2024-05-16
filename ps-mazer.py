@@ -35,13 +35,17 @@ def draw_cell(ctx, x, y, style):
         CELL_SIZE - 1)
     
 def clear_maze(ctx, width, height):
-    ctx.clearRect(0, 0,
-        (width + 1) * SPACING + WALL_THICK - 1,
-        (height + 1) * SPACING + WALL_THICK - 1)
-
+    # clear the current area
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+    # now set the new size
+    ctx.canvas.width = width
+    ctx.canvas.height = height
+    
 def draw_grid(ctx, width, height, style):
     maxx = width * SPACING + WALL_THICK - 1
     maxy = height * SPACING + WALL_THICK - 1
+    ctx.canvas.width = maxx
+    ctx.canvas.height = maxy
     for x in range(0, maxx, SPACING):
         draw_vert(ctx, x, 0, maxy, WALL_THICK, style)
     for y in range(0, maxy, SPACING):
@@ -64,28 +68,26 @@ def draw_horz(ctx, y, minx, maxx, thick, style):
     ctx.stroke()
 
 def on_clear(*args):
+    # I would have used document.getElementById("xxx").value but
+    # I get an error that the element has no value.
+    width = int(document.querySelector("[name='width']").value)
+    height = int(document.querySelector("[name='height']").value)
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
-    clear_maze(ctx, 10, 10)
+    clear_maze(ctx, width, height)
 
 def on_generate(*args):
-    choice = document.querySelector("[name='generator']:checked").value
-    print(f"{choice = }")
     width = int(document.querySelector("[name='width']").value)
-    print(f"{width = }")
     height = int(document.querySelector("[name='height']").value)
-    print(f"{height = }")
+    choice = document.querySelector("[name='generator']:checked").value
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
     draw_maze(ctx, width, height)
 
 def on_solve(*args):
-    choice = document.querySelector("[name='solver']:checked").value
-    print(f"{choice = }")
     width = int(document.querySelector("[name='width']").value)
-    print(f"{width = }")
     height = int(document.querySelector("[name='height']").value)
-    print(f"{height = }")
+    choice = document.querySelector("[name='solver']:checked").value
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
     for y in range(width):
