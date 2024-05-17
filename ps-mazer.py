@@ -61,7 +61,7 @@ class App():
         else:
             return tuple(s[0:3])
 
-    def fetch_elements():
+    def fetch_elements(self):
         # I would have used document.getElementById("xxx").value but
         # I get an error that the element has no value.
         if self.width_input is None:
