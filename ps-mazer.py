@@ -44,17 +44,28 @@ class App():
         self.clear_button = None
         self.generate_button = None
         self.generate_button = None
-                document.getElementById("clear_button").setAttribute("disabled",False)
-                document.getElementById("generate_button").setAttribute("disabled",False)
-                document.getElementById("solve_button").setAttribute("disabled",True)
+        self.width_input = None
+        self.height_input = None
 
-    def update_states(self):
+    def fetch_elements():
+        # I would have used document.getElementById("xxx").value but
+        # I get an error that the element has no value.
+        if self.width_input is None:
+            self.width_input = document.querySelector("[name='width']")
+        if self.height_input is None:
+            self.height_input = document.querySelector("[name='height']")
         if self.clear_button is None:
             self.clear_button = document.getElementById("clear_button")
         if self.generate_button is None:
             self.generate_button = document.getElementById("generate_button")
         if self.solve_button is None:
             self.solve_button = document.getElementById("solve_button")
+
+    def update_states(self):
+        self.fetch_elements()
+        print(f"before: {clear_button(.getAttribute('disabled') = }")
+        print(f"before: {generate_button(.getAttribute('disabled') = }")
+        print(f"before: {solve_button(.getAttribute('disabled') = }")
         match self.state:
             case State.INITIAL | State.CLEARED:
                 clear_button.setAttribute("disabled",False)
@@ -76,8 +87,9 @@ class App():
                 clear_button.setAttribute("disabled",False)
                 generate_button.setAttribute("disabled",False)
                 solve_button.setAttribute("disabled",False)
-
-
+        print(f"after: {clear_button(.getAttribute('disabled') = }")
+        print(f"after: {generate_button(.getAttribute('disabled') = }")
+        print(f"after: {solve_button(.getAttribute('disabled') = }")
 
 # instantiate the application
 app = App()
@@ -127,10 +139,9 @@ def draw_horz(ctx, y, minx, maxx, thick, style):
     ctx.stroke()
 
 def on_clear(*args):
-    # I would have used document.getElementById("xxx").value but
-    # I get an error that the element has no value.
-    width = int(document.querySelector("[name='width']").value)
-    height = int(document.querySelector("[name='height']").value)
+    self.fetch_elements()
+    width = int(width_input.value)
+    height = int(height_input.value)
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
     clear_maze(ctx, width, height)
@@ -138,8 +149,9 @@ def on_clear(*args):
     app.update_states()
 
 def on_generate(*args):
-    width = int(document.querySelector("[name='width']").value)
-    height = int(document.querySelector("[name='height']").value)
+    self.fetch_elements()
+    width = int(width_input.value)
+    height = int(height_input.value)
     choice = document.querySelector("[name='generator']:checked").value
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
@@ -151,8 +163,9 @@ def on_generate(*args):
     app.update_states()
 
 def on_solve(*args):
-    width = int(document.querySelector("[name='width']").value)
-    height = int(document.querySelector("[name='height']").value)
+    self.fetch_elements()
+    width = int(width_input.value)
+    height = int(height_input.value)
     choice = document.querySelector("[name='solver']:checked").value
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
