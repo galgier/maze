@@ -17,6 +17,9 @@ class State(Enum):
     SOLVING = auto()
     SOLVED = auto()
 
+DEF_WIDTH = 10           # number of cells
+DEF_HEIGHT = 10
+DEF_LEVELS = 1
 CELL_SIZE = 30           # width of a cell
 WALL_THICK = 3           # thickness of wall
 ARROW_THICK = 1
