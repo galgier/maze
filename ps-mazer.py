@@ -153,7 +153,7 @@ def draw_horz(ctx, y, minx, maxx, thick, style):
     ctx.stroke()
 
 def on_clear(*args):
-    self.fetch_elements()
+    app.fetch_elements()
     width = int(width_input.value)
     height = int(height_input.value)
     canvas = document.getElementById("maze")
@@ -163,7 +163,7 @@ def on_clear(*args):
     app.update_states()
 
 def on_generate(*args):
-    self.fetch_elements()
+    app.fetch_elements()
     width = int(width_input.value)
     height = int(height_input.value)
     choice = document.querySelector("[name='generator']:checked").value
@@ -177,7 +177,7 @@ def on_generate(*args):
     app.update_states()
 
 def on_solve(*args):
-    self.fetch_elements()
+    app.fetch_elements()
     width = int(width_input.value)
     height = int(height_input.value)
     choice = document.querySelector("[name='solver']:checked").value
