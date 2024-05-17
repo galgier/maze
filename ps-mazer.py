@@ -47,6 +47,17 @@ class App():
         self.width_input = None
         self.height_input = None
 
+    # For efficiency a 3D maze with only one level is best handled as
+    # if it is a 2D maze.  This accepts a tuple or list and returns a
+    # new tuple that is perhaps only two members.
+    def shape2d(self, shape):
+        s = list(shape)
+        s.extend([1, 1, 1])         # silently handle short shapes
+        if s[2] == 1:
+            return tuple(s[0:2])
+        else:
+            return tuple(s[0:3])
+
     def fetch_elements():
         # I would have used document.getElementById("xxx").value but
         # I get an error that the element has no value.
