@@ -63,9 +63,9 @@ class App():
 
     def update_states(self):
         self.fetch_elements()
-        print(f"before: {clear_button(.getAttribute('disabled') = }")
-        print(f"before: {generate_button(.getAttribute('disabled') = }")
-        print(f"before: {solve_button(.getAttribute('disabled') = }")
+        print(f"before: {clear_button.getAttribute('disabled') = }")
+        print(f"before: {generate_button.getAttribute('disabled') = }")
+        print(f"before: {solve_button.getAttribute('disabled') = }")
         match self.state:
             case State.INITIAL | State.CLEARED:
                 clear_button.setAttribute("disabled",False)
@@ -87,9 +87,9 @@ class App():
                 clear_button.setAttribute("disabled",False)
                 generate_button.setAttribute("disabled",False)
                 solve_button.setAttribute("disabled",False)
-        print(f"after: {clear_button(.getAttribute('disabled') = }")
-        print(f"after: {generate_button(.getAttribute('disabled') = }")
-        print(f"after: {solve_button(.getAttribute('disabled') = }")
+        print(f"after: {clear_button.getAttribute('disabled') = }")
+        print(f"after: {generate_button.getAttribute('disabled') = }")
+        print(f"after: {solve_button.getAttribute('disabled') = }")
 
 # instantiate the application
 app = App()
