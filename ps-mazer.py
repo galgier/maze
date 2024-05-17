@@ -11,7 +11,6 @@ from maze import Maze
 
 class State(Enum):
     INITIAL = auto()
-    CLEARING = auto()
     CLEARED = auto()
     GENERATING = auto()
     GENERATED = auto()
@@ -42,6 +41,35 @@ class App():
         self.state = State.INITIAL
         self.shape = self.shape2d((DEF_WIDTH,DEF_HEIGHT,DEF_LEVELS))
         self.maze = Maze(self.shape)
+
+    def update_states(self):
+        match self.state:
+            case State.INITIAL | State.CLEARED:
+                document.getElementById("clear_button").disabled = False
+                document.getElementById("generate_button").disabled = False
+                document.getElementById("solve_button").disabled = True
+            case State.GENERATING:
+                document.getElementById("clear_button").disabled = True
+                document.getElementById("generate_button").disabled = True
+                document.getElementById("solve_button").disabled = True
+            case State.GENERATED:
+                document.getElementById("clear_button").disabled = False
+                document.getElementById("generate_button").disabled = False
+                document.getElementById("solve_button").disabled = False
+            case State.SOLVING:
+                document.getElementById("clear_button").disabled = True
+                document.getElementById("generate_button").disabled = True
+                document.getElementById("solve_button").disabled = True
+            case State.SOLVED:
+                document.getElementById("clear_button").disabled = False
+                document.getElementById("generate_button").disabled = False
+                document.getElementById("solve_button").disabled = False
+        print(f"{self.state = }")
+        print(f"clear_button.disabled = {document.getElementById("clear_button").disabled}")
+        print(f"generate_button.disabled = {document.getElementById("generate_button").disabled}")
+        print(f"solve_button.disabled = {document.getElementById("solve_button").disabled}")
+
+
 
 # instantiate the application
 app = App()
@@ -97,8 +125,6 @@ def on_clear(*args):
     height = int(document.querySelector("[name='height']").value)
     canvas = document.getElementById("maze")
     ctx = canvas.getContext("2d")
-    app.state = State.CLEARING
-    app.update_states()
     clear_maze(ctx, width, height)
     app.state = State.CLEARED
     app.update_states()
