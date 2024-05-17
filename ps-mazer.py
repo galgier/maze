@@ -41,33 +41,41 @@ class App():
         self.state = State.INITIAL
         self.shape = self.shape2d((DEF_WIDTH,DEF_HEIGHT,DEF_LEVELS))
         self.maze = Maze(self.shape)
+        self.clear_button = None
+        self.generate_button = None
+        self.generate_button = None
+                document.getElementById("clear_button").setAttribute("disabled",False)
+                document.getElementById("generate_button").setAttribute("disabled",False)
+                document.getElementById("solve_button").setAttribute("disabled",True)
 
     def update_states(self):
+        if self.clear_button is None:
+            self.clear_button = document.getElementById("clear_button")
+        if self.generate_button is None:
+            self.generate_button = document.getElementById("generate_button")
+        if self.solve_button is None:
+            self.solve_button = document.getElementById("solve_button")
         match self.state:
             case State.INITIAL | State.CLEARED:
-                document.getElementById("clear_button").disabled = False
-                document.getElementById("generate_button").disabled = False
-                document.getElementById("solve_button").disabled = True
+                clear_button.setAttribute("disabled",False)
+                generate_button.setAttribute("disabled",False)
+                solve_button.setAttribute("disabled",True)
             case State.GENERATING:
-                document.getElementById("clear_button").disabled = True
-                document.getElementById("generate_button").disabled = True
-                document.getElementById("solve_button").disabled = True
+                clear_button.setAttribute("disabled",True)
+                generate_button.setAttribute("disabled",True)
+                solve_button.setAttribute("disabled",True)
             case State.GENERATED:
-                document.getElementById("clear_button").disabled = False
-                document.getElementById("generate_button").disabled = False
-                document.getElementById("solve_button").disabled = False
+                clear_button.setAttribute("disabled",False)
+                generate_button.setAttribute("disabled",False)
+                solve_button.setAttribute("disabled",False)
             case State.SOLVING:
-                document.getElementById("clear_button").disabled = True
-                document.getElementById("generate_button").disabled = True
-                document.getElementById("solve_button").disabled = True
+                clear_button.setAttribute("disabled",True)
+                generate_button.setAttribute("disabled",True)
+                solve_button.setAttribute("disabled",True)
             case State.SOLVED:
-                document.getElementById("clear_button").disabled = False
-                document.getElementById("generate_button").disabled = False
-                document.getElementById("solve_button").disabled = False
-        print(f"{self.state = }")
-        print(f"clear_button.disabled = {document.getElementById("clear_button").disabled}")
-        print(f"generate_button.disabled = {document.getElementById("generate_button").disabled}")
-        print(f"solve_button.disabled = {document.getElementById("solve_button").disabled}")
+                clear_button.setAttribute("disabled",False)
+                generate_button.setAttribute("disabled",False)
+                solve_button.setAttribute("disabled",False)
 
 
 
